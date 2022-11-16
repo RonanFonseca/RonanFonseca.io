@@ -113,7 +113,6 @@ class GlobeVis {
                         let m1 = [event.x, event.y],
                             o1 = [o0[0] + (m0[0] - m1[0]) / 4, o0[1] + (m1[1] - m0[1]) / 4];
                         vis.projection.rotate([-o1[0], -o1[1]]);
-                        console.log([-o1[0], -o1[1]])
                     }
 
                     // Update the map
@@ -139,22 +138,27 @@ class GlobeVis {
             }
         });
 
+        // let testFilter = vis.historyData.filter(d => d.name == "United Kingdom")
 
 
         // create random data structure with information for each land
         vis.countryInfo = {};
         vis.geoData.objects.countries.geometries.forEach(d => {
-            let randomCountryValue = Math.random() * 2
-            // console.log(d.properties.name);
+
             vis.countryInfo[d.properties.name] = {
                 name: d.properties.name,
-                category: 'category_' + Math.floor(randomCountryValue),
-                value: randomCountryValue / 2 * 100
             }
+            let countryName = d.properties.name;
+
             if(countriesFake.includes(d.properties.name)){
                 vis.countryInfo[d.properties.name].color = "red";
+                vis.countryInfo[d.properties.name].fakes = true;
+                vis.countryInfo[d.properties.name].news = vis.historyData.filter(d => d.name == countryName);
             }else {
                 vis.countryInfo[d.properties.name].color = "gray";
+                vis.countryInfo[d.properties.name].fakes = false;
+                vis.countryInfo[d.properties.name].news = {};
+
             }
         })
 
@@ -213,12 +217,17 @@ class GlobeVis {
 
 
         vis.countries
-            .on("click", function() {
+            .on("click", function(event, d) {
 
-                let historicalEvent = vis.historyData[Math.floor(Math.random()*vis.historyData.length)]
-                console.log(historicalEvent);
+                // Display fake news only for countries that have it
+                if(vis.countryInfo[d.properties.name].fakes === true){
 
-                vis.description.html(`
+                    // Select a random historical event from that country
+                    let historicalEvent = vis.countryInfo[d.properties.name]
+                        .news[Math.floor(Math.random()*vis.countryInfo[d.properties.name].news.length)]
+
+
+                    vis.description.html(`
                          <div style="border: thin solid grey; width:40vw; max-height:30vh; border-radius: 5px; background: lightgrey; padding: 20px">
                              <h4>${historicalEvent.year, historicalEvent.event}<h3>
                              <h5> Place: ${historicalEvent.name}</h5>    
@@ -226,9 +235,12 @@ class GlobeVis {
                  
                          </div>\``);
 
-                vis.newsimage.html(`
+                    vis.newsimage.html(`
                     <img src="img/${historicalEvent.image_code}">
                 `);
+                }
+
+
             });
 
 
