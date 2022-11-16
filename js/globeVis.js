@@ -113,6 +113,7 @@ class GlobeVis {
                         let m1 = [event.x, event.y],
                             o1 = [o0[0] + (m0[0] - m1[0]) / 4, o0[1] + (m1[1] - m0[1]) / 4];
                         vis.projection.rotate([-o1[0], -o1[1]]);
+                        console.log([-o1[0], -o1[1]])
                     }
 
                     // Update the map
@@ -129,23 +130,43 @@ class GlobeVis {
     wrangleData() {
         let vis = this;
 
+        console.log(vis.historyData);
+        let countriesFake = []
+
+        vis.historyData.forEach(d => {
+            if(!countriesFake.includes(d.name)){
+                countriesFake.push(d.name)
+            }
+        });
+
+
+
         // create random data structure with information for each land
         vis.countryInfo = {};
         vis.geoData.objects.countries.geometries.forEach(d => {
             let randomCountryValue = Math.random() * 2
+            // console.log(d.properties.name);
             vis.countryInfo[d.properties.name] = {
                 name: d.properties.name,
                 category: 'category_' + Math.floor(randomCountryValue),
-                color: vis.colors[Math.floor(randomCountryValue)],
                 value: randomCountryValue / 2 * 100
             }
+            if(countriesFake.includes(d.properties.name)){
+                vis.countryInfo[d.properties.name].color = "red";
+            }else {
+                vis.countryInfo[d.properties.name].color = "gray";
+            }
         })
+
+        console.log(vis.countryInfo);
 
         vis.updateVis()
     }
 
     updateVis() {
         let vis = this;
+
+        // console.log(vis.countryInfo);
 
         // Create a tooltip
         vis.tooltip = d3.select("body").append('div')
@@ -200,7 +221,7 @@ class GlobeVis {
                 vis.description.html(`
                          <div style="border: thin solid grey; width:40vw; max-height:30vh; border-radius: 5px; background: lightgrey; padding: 20px">
                              <h4>${historicalEvent.year, historicalEvent.event}<h3>
-                             <h5> Place: ${historicalEvent.place}, Latitude: ${historicalEvent.latitude}, Longitude: ${historicalEvent.longitude}</h5>    
+                             <h5> Place: ${historicalEvent.name}</h5>    
                              <p>${historicalEvent.news}</p>   
                  
                          </div>\``);
@@ -209,6 +230,7 @@ class GlobeVis {
                     <img src="img/${historicalEvent.image_code}">
                 `);
             });
+
 
         // Render the x axis
         vis.svg.select(".x-axis")
