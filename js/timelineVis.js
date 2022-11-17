@@ -75,17 +75,12 @@ class TimelineVis {
                     .attr('stroke-width', '0px')
             })
             .on('click', (event,d) =>{
-                
 
+                // Center the globe to the location
                 myGlobeVis.spinGlobe(d.name);
-
-
-
 
                 // Update the timeline and the description based on this event
                 linkViews(d);
-
-
             });
 
 

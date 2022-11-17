@@ -227,8 +227,12 @@ class GlobeVis {
 
                 console.log(d);
 
+
                 // Display fake news only for countries that have it
                 if(vis.countryInfo[d.properties.name].fakes === true){
+
+                    // Center the globe on that location
+                    vis.spinGlobe(vis.countryInfo[d.properties.name].name)
 
                     // Select a random historical event from that country
                     let historicalEvent = vis.countryInfo[d.properties.name]
@@ -249,6 +253,7 @@ class GlobeVis {
             .call(vis.xAxis);
     }
 
+    // Funtion to spin the globe to the centered country based on the timeline
     spinGlobe(countryName){
         let vis = this;
 
@@ -256,14 +261,24 @@ class GlobeVis {
 
         let getName = vis.world.filter(d => d.properties.name == countryName)
 
-        let p = d3.geoCentroid(getName[0]);
+        let center = d3.geoCentroid(getName[0]);
 
-        vis.projection.rotate([-p[0], -p[1]]);
+        // Based on this link
+        // https://stackoverflow.com/questions/63808899/using-d3-how-can-i-create-a-smooth-transition-on-my-globe-animation
 
-        // Update the map
-        vis.path = d3.geoPath().projection(vis.projection);
-        d3.selectAll(".country").attr("d", vis.path)
-        d3.selectAll(".graticule").attr("d", vis.path)
+        d3.transition()
+            .duration(1000)
+            .tween("rotate", function() {
+                const r = d3.interpolate(vis.projection.rotate(), [-center[0], -center[1]]);
+                return function(t) {
+                    vis.projection.rotate(r(t));
+                    // Update the map
+                    vis.path = d3.geoPath().projection(vis.projection);
+                    d3.selectAll(".country").attr("d", vis.path)
+                    d3.selectAll(".graticule").attr("d", vis.path)
+                };
+            })
+
     }
 
 
