@@ -32,6 +32,7 @@ class GlobeVis {
         // Create a space for the description
         vis.description = d3.select("#description").append('div');
 
+
         // Create a space for the image
         vis.newsimage = d3.select("#newsimage");
 
@@ -225,31 +226,25 @@ class GlobeVis {
                     let historicalEvent = vis.countryInfo[d.properties.name]
                         .news[Math.floor(Math.random()*vis.countryInfo[d.properties.name].news.length)]
 
-                    d3.selectAll(".circle").attr("fill", "steelblue");
-                    d3.select("#news-" + historicalEvent.id)
-                        .attr("fill", "red")
-                        .transition()
-                        .duration(200)
-                        .attr("r", "20")
-                        .attr("stroke-width", "2")
-                        .attr("stroke", "grey")
-                        .transition()
-                        .duration(200)
-                        .attr("stroke-width", "0")
-                        .attr("stroke", "none")
-                        .attr("r", "5");
+                    linkViews(historicalEvent);
 
-                    vis.description.html(`
-                         <div style="border: thin solid grey; width:40vw; max-height:30vh; border-radius: 5px; background: lightgrey; padding: 20px">
-                             <h4>${historicalEvent.year, historicalEvent.event}<h3>
-                             <h5> Place: ${historicalEvent.name}</h5>    
-                             <p>${historicalEvent.news}</p>   
-                 
-                         </div>\``);
 
-                    vis.newsimage.html(`
-                    <img src="img/${historicalEvent.image_code}">
-                `);
+                    // // Change the color of the timeline circles
+                    // d3.selectAll(".circle").attr("fill", "steelblue");
+                    // d3.select("#news-" + historicalEvent.id)
+                    //     .attr("fill", "red")
+                    //     .transition()
+                    //     .duration(200)
+                    //     .attr("r", "20")
+                    //     .attr("stroke-width", "2")
+                    //     .attr("stroke", "grey")
+                    //     .transition()
+                    //     .duration(200)
+                    //     .attr("stroke-width", "0")
+                    //     .attr("stroke", "none")
+                    //     .attr("r", "5");
+                    //
+                    // updateText(historicalEvent);
                 }
 
 

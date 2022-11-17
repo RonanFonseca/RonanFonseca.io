@@ -67,16 +67,16 @@ class TimelineVis {
 
         vis.xAxsGroup.selectAll('.circle')
             .on("mouseover", function(event, d) {
-                console.log(d)
                 d3.select(this)
                     .attr('stroke-width', '2px')
                     .attr('stroke', 'black')
-                    .attr('fill', 'steelblue')
             })
             .on('mouseout', function(event, d){
                 d3.select(this)
                     .attr('stroke-width', '0px')
-                    .attr("fill", "steelblue")
+            })
+            .on('click', (event,d) =>{
+                linkViews(d);
             });
 
 
