@@ -257,17 +257,18 @@ class GlobeVis {
     spinGlobe(countryName){
         let vis = this;
 
-        console.log(countryName);
-
+        // Match the country on the map with the country chosen
         let getName = vis.world.filter(d => d.properties.name == countryName)
 
+        // Center on that country
         let center = d3.geoCentroid(getName[0]);
 
         // Based on this link
         // https://stackoverflow.com/questions/63808899/using-d3-how-can-i-create-a-smooth-transition-on-my-globe-animation
 
+        // Make a transition to rotate to that country
         d3.transition()
-            .duration(1000)
+            .duration(1500)
             .tween("rotate", function() {
                 const r = d3.interpolate(vis.projection.rotate(), [-center[0], -center[1]]);
                 return function(t) {
