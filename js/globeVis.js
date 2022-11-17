@@ -104,6 +104,7 @@ class GlobeVis {
         vis.svg.call(
             d3.drag()
                 .on("start", function (event) {
+                    console.log(event)
 
                     let lastRotationParams = vis.projection.rotate();
                     m0 = [event.x, event.y];
@@ -130,7 +131,7 @@ class GlobeVis {
     wrangleData() {
         let vis = this;
 
-        console.log(vis.historyData);
+        // Store the list of countries that contain fake news
         let countriesFake = []
 
         vis.historyData.forEach(d => {
@@ -139,18 +140,21 @@ class GlobeVis {
             }
         });
 
-        // let testFilter = vis.historyData.filter(d => d.name == "United Kingdom")
 
 
-        // create random data structure with information for each land
+
+        // Create data structure with information for each country
         vis.countryInfo = {};
         vis.geoData.objects.countries.geometries.forEach(d => {
 
+
             vis.countryInfo[d.properties.name] = {
                 name: d.properties.name,
+                countryId: d.id
             }
             let countryName = d.properties.name;
 
+            // Change color of country if it has fake news in the dataset
             if(countriesFake.includes(d.properties.name)){
                 vis.countryInfo[d.properties.name].color = "red";
                 vis.countryInfo[d.properties.name].fakes = true;
@@ -170,6 +174,7 @@ class GlobeVis {
 
     updateVis() {
         let vis = this;
+
 
         // console.log(vis.countryInfo);
 
@@ -216,8 +221,11 @@ class GlobeVis {
                     .html(``);
             });
 
+
         vis.countries
             .on("click", function(event, d) {
+
+                console.log(d);
 
                 // Display fake news only for countries that have it
                 if(vis.countryInfo[d.properties.name].fakes === true){
@@ -226,29 +234,12 @@ class GlobeVis {
                     let historicalEvent = vis.countryInfo[d.properties.name]
                         .news[Math.floor(Math.random()*vis.countryInfo[d.properties.name].news.length)]
 
+                    // Update the timeline and the description based on this event
                     linkViews(historicalEvent);
-
-
-                    // // Change the color of the timeline circles
-                    // d3.selectAll(".circle").attr("fill", "steelblue");
-                    // d3.select("#news-" + historicalEvent.id)
-                    //     .attr("fill", "red")
-                    //     .transition()
-                    //     .duration(200)
-                    //     .attr("r", "20")
-                    //     .attr("stroke-width", "2")
-                    //     .attr("stroke", "grey")
-                    //     .transition()
-                    //     .duration(200)
-                    //     .attr("stroke-width", "0")
-                    //     .attr("stroke", "none")
-                    //     .attr("r", "5");
-                    //
-                    // updateText(historicalEvent);
                 }
 
 
-            });
+            })
 
 
         // Render the x axis
@@ -256,6 +247,23 @@ class GlobeVis {
             .transition()
             .duration(500)
             .call(vis.xAxis);
+    }
+
+    spinGlobe(countryName){
+        let vis = this;
+
+        console.log(countryName);
+
+        let getName = vis.world.filter(d => d.properties.name == countryName)
+
+        let p = d3.geoCentroid(getName[0]);
+
+        vis.projection.rotate([-p[0], -p[1]]);
+
+        // Update the map
+        vis.path = d3.geoPath().projection(vis.projection);
+        d3.selectAll(".country").attr("d", vis.path)
+        d3.selectAll(".graticule").attr("d", vis.path)
     }
 
 

@@ -45,8 +45,7 @@ class TimelineVis {
             .attr("cy", "5")
             .attr("fill", "steelblue")
 
-        // TODO: Make circles clickable and linked to each fake news event
-        // Make the globe spin to the corresponding country on click
+
 
         vis.xAxis = d3.axisTop()
             .scale(vis.timelineScale)
@@ -76,7 +75,17 @@ class TimelineVis {
                     .attr('stroke-width', '0px')
             })
             .on('click', (event,d) =>{
+                
+
+                myGlobeVis.spinGlobe(d.name);
+
+
+
+
+                // Update the timeline and the description based on this event
                 linkViews(d);
+
+
             });
 
 
