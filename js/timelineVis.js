@@ -39,6 +39,7 @@ class TimelineVis {
             .enter()
             .append("circle")
             .attr('class', 'circle')
+            .attr('id', d=> `news-${d.id}`)
             .attr("r", "5")
             .attr("cx", d => vis.timelineScale(d.year))
             .attr("cy", "5")
@@ -66,6 +67,7 @@ class TimelineVis {
 
         vis.xAxsGroup.selectAll('.circle')
             .on("mouseover", function(event, d) {
+                console.log(d)
                 d3.select(this)
                     .attr('stroke-width', '2px')
                     .attr('stroke', 'black')

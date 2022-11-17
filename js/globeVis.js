@@ -162,7 +162,7 @@ class GlobeVis {
             }
         })
 
-        console.log(vis.countryInfo);
+        // console.log(vis.countryInfo);
 
         vis.updateVis()
     }
@@ -215,7 +215,6 @@ class GlobeVis {
                     .html(``);
             });
 
-
         vis.countries
             .on("click", function(event, d) {
 
@@ -226,6 +225,19 @@ class GlobeVis {
                     let historicalEvent = vis.countryInfo[d.properties.name]
                         .news[Math.floor(Math.random()*vis.countryInfo[d.properties.name].news.length)]
 
+                    d3.selectAll(".circle").attr("fill", "steelblue");
+                    d3.select("#news-" + historicalEvent.id)
+                        .attr("fill", "red")
+                        .transition()
+                        .duration(200)
+                        .attr("r", "20")
+                        .attr("stroke-width", "2")
+                        .attr("stroke", "grey")
+                        .transition()
+                        .duration(200)
+                        .attr("stroke-width", "0")
+                        .attr("stroke", "none")
+                        .attr("r", "5");
 
                     vis.description.html(`
                          <div style="border: thin solid grey; width:40vw; max-height:30vh; border-radius: 5px; background: lightgrey; padding: 20px">
