@@ -3,7 +3,7 @@ function linkViews(fakeNews){
     // It calls updateText to change the text description to match that fake news
 
     // Change the color of the timeline circles
-    d3.selectAll(".circle").attr("fill", "steelblue");
+    d3.selectAll(".circle").attr("fill", "#0B0B45");
     d3.select("#news-" + fakeNews.id)
         .attr("fill", "red")
         .transition()
@@ -15,7 +15,7 @@ function linkViews(fakeNews){
         .duration(200)
         .attr("stroke-width", "0")
         .attr("stroke", "none")
-        .attr("r", "5");
+        .attr("r", "8");
 
     updateText(fakeNews);
 }

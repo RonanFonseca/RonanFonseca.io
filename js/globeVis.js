@@ -268,7 +268,8 @@ class GlobeVis {
 
         // Make a transition to rotate to that country
         d3.transition()
-            .duration(1500)
+            .duration(2000)
+            .ease(d3.easeCubic)
             .tween("rotate", function() {
                 const r = d3.interpolate(vis.projection.rotate(), [-center[0], -center[1]]);
                 return function(t) {

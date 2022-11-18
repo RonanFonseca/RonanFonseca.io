@@ -40,10 +40,19 @@ class TimelineVis {
             .append("circle")
             .attr('class', 'circle')
             .attr('id', d=> `news-${d.id}`)
-            .attr("r", "5")
+            .attr("r", "8")
+            .transition()
+            .duration(2000)
             .attr("cx", d => vis.timelineScale(d.year))
-            .attr("cy", "5")
-            .attr("fill", "steelblue")
+            .attr("cy", (d, i) => {
+                console.log(d, i)
+                if(i % 2 != 0){
+                    return "-10";
+                } else{
+                    return "10";
+                }
+            })
+            .attr("fill", "#0B0B45")
 
 
 
@@ -88,7 +97,7 @@ class TimelineVis {
         // Render the x axis
         vis.svg.select(".timeline-axis")
             .transition()
-            .duration(500)
+            .duration(2000)
             .call(vis.xAxis);
 
     }
