@@ -45,7 +45,6 @@ class TimelineVis {
             .duration(2000)
             .attr("cx", d => vis.timelineScale(d.year))
             .attr("cy", (d, i) => {
-                console.log(d, i)
                 if(i % 2 != 0){
                     return "-10";
                 } else{

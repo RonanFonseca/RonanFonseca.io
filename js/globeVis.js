@@ -225,14 +225,14 @@ class GlobeVis {
         vis.countries
             .on("click", function(event, d) {
 
-                console.log(d);
+                // console.log(d);
 
+                // Center the globe on that location
+                vis.spinGlobe(vis.countryInfo[d.properties.name].name)
 
                 // Display fake news only for countries that have it
                 if(vis.countryInfo[d.properties.name].fakes === true){
 
-                    // Center the globe on that location
-                    vis.spinGlobe(vis.countryInfo[d.properties.name].name)
 
                     // Select a random historical event from that country
                     let historicalEvent = vis.countryInfo[d.properties.name]

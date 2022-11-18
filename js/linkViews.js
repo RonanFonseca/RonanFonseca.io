@@ -2,8 +2,17 @@ function linkViews(fakeNews){
     // This function changes the colors of the timeline to match the historical news chosen
     // It calls updateText to change the text description to match that fake news
 
-    // Change the color of the timeline circles
+    // Make all news from that country a darker red
+
+    // Get all news from that country
+    let countryNews = myGlobeVis.historyData.filter(d => d.name == fakeNews.name);
+    console.log(countryNews)
+
+    // Reset the color of the timeline circles
     d3.selectAll(".circle").attr("fill", "#0B0B45");
+
+
+    // Change the circle of the selected fake news and make it red
     d3.select("#news-" + fakeNews.id)
         .attr("fill", "red")
         .transition()

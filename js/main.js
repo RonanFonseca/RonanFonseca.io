@@ -8,6 +8,7 @@ let myTimelineVis;
 
 // Date parser to convert strings to date objects
 let parseDate = d3.timeParse("%Y");
+let formatYear = d3.timeFormat("%Y");
 
 function updateAllVisualizations(){
     myGlobeVis.wrangleData()
