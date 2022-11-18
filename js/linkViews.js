@@ -8,8 +8,19 @@ function linkViews(fakeNews){
     let countryNews = myGlobeVis.historyData.filter(d => d.name == fakeNews.name);
     console.log(countryNews)
 
+    console.log(fakeNews)
+
     // Reset the color of the timeline circles
-    d3.selectAll(".circle").attr("fill", "#0B0B45");
+    d3.selectAll(".circle")
+        // .attr("fill", "#0B0B45");
+        .attr("fill", d => {
+            if(countryNews.includes(d)){
+                return "maroon";
+            }else{
+                return "#0B0B45";
+            }
+
+        })
 
 
     // Change the circle of the selected fake news and make it red

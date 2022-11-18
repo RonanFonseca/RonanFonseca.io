@@ -21,11 +21,10 @@
 
 #timelineDiv {
     min-height: 10vh;
-    min-width: 80vw;
+    min-width: 85vw;
 }
 
 #globeDiv {
-
     min-height: 10vh;
     max-height: 55vh;
 }

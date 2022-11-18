@@ -201,10 +201,10 @@ class GlobeVis {
                     .style("left", event.pageX + 20 + "px")
                     .style("top", event.pageY + "px")
                     .html(`
-                         <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
+                         <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 5px">
                              <h3>${d.properties.name}<h3>
-                             <h4> Countries with fake news  in the timeline will be displayed in red</h4>
-                             <h4> Clicking on them will display fake news from that country</h4>
+                             <h4> Click on countries in red to display a random fake news from that country </h4>
+                             <h4> The timeline will display the current event in red and other events for that country in darker red</h4>
 
                          </div>`);
             })
