@@ -225,7 +225,6 @@ class GlobeVis {
         vis.countries
             .on("click", function(event, d) {
 
-                // console.log(d);
 
                 // Center the globe on that location
                 vis.spinGlobe(vis.countryInfo[d.properties.name].name)
@@ -242,9 +241,7 @@ class GlobeVis {
                     linkViews(historicalEvent);
                 }
 
-
             })
-
 
         // Render the x axis
         vis.svg.select(".x-axis")

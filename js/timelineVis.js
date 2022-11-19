@@ -34,6 +34,13 @@ class TimelineVis {
             .attr('class', 'timeline-axis')
             .attr('transform', `translate(${vis.width * 0.1}, ${vis.height * 0.5})`);
 
+        // Create a tooltip
+        vis.tooltip = d3.select("body").append('div')
+            .attr('class', "tooltip")
+            .attr('id', 'timelineTooltip');
+
+
+
         // Add circles
         vis.xAxsGroup.selectAll().data(vis.historyData)
             .enter()
@@ -75,12 +82,31 @@ class TimelineVis {
         vis.xAxsGroup.selectAll('.circle')
             .on("mouseover", function(event, d) {
                 d3.select(this)
-                    .attr('stroke-width', '2px')
-                    .attr('stroke', 'black')
+                    // .attr('stroke-width', '2px')
+                    // .attr('stroke', 'black')
+                    .attr("r", "11px")
+
+                // Update the tooltip
+                vis.tooltip
+                    .style("opacity", 1)
+                    .style("left", event.pageX + 20 + "px")
+                    .style("top", event.pageY + "px")
+                    .html(`
+                         <div style="border: thin solid grey; border-radius: 5px; background: lightgray; padding: 2px">
+                             <p>${d.event}, ${formatYear(d.year)}<p>
+
+                         </div>`);
             })
             .on('mouseout', function(event, d){
                 d3.select(this)
-                    .attr('stroke-width', '0px')
+                    .attr('r', '8px')
+
+                // Make the tooltip disappear
+                vis.tooltip
+                    .style("opacity", 0)
+                    .style("left", 0)
+                    .style("top", 0)
+                    .html(``);
             })
             .on('click', (event,d) =>{
 
